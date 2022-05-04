@@ -44,15 +44,17 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
     const response = await fetch(
         `http://51.89.15.39:8087/api/feedback`,
         {
-            method: 'PUT',
-            headers: { 'accept: application/json', 'Content-Type': 'application/json'},
-            body: { 'Comment': '',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
+                    'Comment': '',
                     'FeedbackType' : event.event,
                     'ItemId' : event.properties.service_id,
                     'Timestamp' : event.timestamp,
                     'UserId' :  event.properties.anonymousId
+            })
                     
-        }
+        },
+        'PUT'
     )
     if (!statusOk(response)) {
         metrics.errors.increment(1)
