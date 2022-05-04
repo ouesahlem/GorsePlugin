@@ -1,6 +1,7 @@
-import { createBuffer } from '@posthog/plugin-contrib'
 import { PluginMeta, PluginEvent, CacheExtension } from '@posthog/plugin-scaffold'
-import { Client } from 'pg'
+import type { RequestInfo, RequestInit, Response } from 'node-fetch'
+import { createBuffer } from '@posthog/plugin-contrib'
+import { RetryError } from '@posthog/plugin-scaffold'
 
 // fetch only declared, as it's provided as a plugin VM global
 declare function fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
@@ -18,7 +19,6 @@ interface SendEventsPluginMeta extends PluginMeta {
         eventsToInclude: string
     },
     global: {
-        pgClient: Client
         eventsToInclude: Set<string>
         buffer: ReturnType<typeof createBuffer>
     }
