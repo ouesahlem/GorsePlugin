@@ -1,6 +1,6 @@
 {
     "name": "Gorse Export Plugin",
-    "url": "",
+    "url": "https://github.com/ouesahlem/Gorse",
     "description": "Export PostHog events into Gorse",
     "main": "index.js",
     "posthogVersion": ">= 1.25.0",
