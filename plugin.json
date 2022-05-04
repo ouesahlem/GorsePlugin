@@ -6,18 +6,6 @@
     "posthogVersion": ">= 1.25.0",
     "config": [
         {
-            "key": "eventPath",
-            "name": "Path of the url where events will go to. In the format of http://51.89.15.39:8087/<api/tablename>",
-            "type": "string",
-            "required": true
-        },
-        {
-            "key": "eventMethodType",
-            "name": "The type of method for the event url",
-            "default": "POST",
-            "type": "string"
-        },
-        {
             "key": "eventsToInclude",
             "name": "Events to include",
             "type": "string",
