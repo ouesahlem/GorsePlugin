@@ -7,7 +7,7 @@
     "config": [
         {
             "key": "eventPath",
-            "name": "Path of the url where events will go to. In the format of http://51.89.15.39:8087/api/<feedback/item/user>",
+            "name": "Path of the url where events will go to. In the format of http://51.89.15.39:8087/<api/tablename>",
             "type": "string",
             "required": true
         },
