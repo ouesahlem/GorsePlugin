@@ -1,5 +1,5 @@
 import { createBuffer } from '@posthog/plugin-contrib'
-import { Plugin, PluginMeta, PluginEvent } from '@posthog/plugin-scaffold'
+import { PluginMeta, PluginEvent, CacheExtension } from '@posthog/plugin-scaffold'
 import { Client } from 'pg'
 
 // fetch only declared, as it's provided as a plugin VM global
@@ -13,8 +13,9 @@ export const metrics = {
 interface SendEventsPluginMeta extends PluginMeta {
     cache: CacheExtension,
     config: {
+        eventPath: string
+        eventMethodType : string
         eventsToInclude: string
-        APIurl: string
     },
     global: {
         pgClient: Client
@@ -24,11 +25,11 @@ interface SendEventsPluginMeta extends PluginMeta {
 }
     
 function verifyConfig({ config }: SendEventsPluginMeta) {
-    if (!config.APIurl) {
+    if (!config.eventPath) {
         throw new Error('URL not provided!')
     }
 
-    if (!/http:\/\/51.89.15.39:8087/(.+).test(config.APIurl)) {
+    if (!/http:\/\/51.89.15.39:8087/(.+)$/.test(config.eventPath)) {
         throw new Error('Invalid URL')
     }
     
@@ -51,7 +52,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 
     metrics.total_requests.increment(1)
     const response = await fetch(
-        `http://51.89.15.39:8087/${config.APIurl}`,
+        `http://51.89.15.39:8087/${config.eventPath}`,
         {
             method: config.eventMethodType,
             headers: { 'accept: application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
