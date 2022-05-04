@@ -14,8 +14,6 @@ export const metrics = {
 interface SendEventsPluginMeta extends PluginMeta {
     cache: CacheExtension,
     config: {
-        eventPath: string
-        eventMethodType : string
         eventsToInclude: string
     },
     global: {
@@ -25,14 +23,6 @@ interface SendEventsPluginMeta extends PluginMeta {
 }
     
 function verifyConfig({ config }: SendEventsPluginMeta) {
-    if (!config.eventPath) {
-        throw new Error('URL not provided!')
-    }
-
-    if (!/http:\/\/51.89.15.39:8087/(.+)$/.test(config.eventPath)) {
-        throw new Error('Invalid URL')
-    }
-    
     if (!config.eventsToInclude) {
         throw new Error('No events to include!')
     }
@@ -52,10 +42,10 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 
     metrics.total_requests.increment(1)
     const response = await fetch(
-        `http://51.89.15.39:8087/${config.eventPath}`,
+        `http://51.89.15.39:8087/api/feedback`,
         {
-            method: config.eventMethodType,
-            headers: { 'accept: application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            method: POST,
+            headers: { 'accept: application/json', 'Content-Type': 'application/json'},
             body: { 'Comment': '',
                     'FeedbackType' : JSON.stringify(event.event),
                     'ItemId' : JSON.stringify(event.properties.service_id),
