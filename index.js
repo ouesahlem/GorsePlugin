@@ -38,8 +38,6 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         return
     }
 
-    const token = await getToken(meta)
-
     metrics.total_requests.increment(1)
     const response = await fetch(
         `http://51.89.15.39:8087/api/feedback`,
@@ -47,10 +45,10 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ 
                     'Comment': '',
-                    'FeedbackType' : event,
-                    'ItemId' : properties.service_id,
-                    'Timestamp' : timestamp,
-                    'UserId' :  properties.anonymousId
+                    'FeedbackType' : event.event,
+                    'ItemId' : event.service_id,
+                    'Timestamp' : event.timestamp,
+                    'UserId' :  event.anonymousId
             })
                     
         },
