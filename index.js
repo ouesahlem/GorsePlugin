@@ -47,10 +47,10 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ 
                     'Comment': '',
-                    'FeedbackType' : event.event,
-                    'ItemId' : event.properties.service_id,
-                    'Timestamp' : event.timestamp,
-                    'UserId' :  event.properties.anonymousId
+                    'FeedbackType' : event,
+                    'ItemId' : properties.service_id,
+                    'Timestamp' : timestamp,
+                    'UserId' :  properties.anonymousId
             })
                     
         },
