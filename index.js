@@ -52,7 +52,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                     'FeedbackType' : event.event,
                     'ItemId' : event.properties?.service_id,
                     'Timestamp' : event.properties?.timestamp,
-                    'UserId' :  event.properties?.segment_traits?.anonymousId
+                    'UserId' :  event.properties?.segment_traits.anonymousId
             })
                     
         },
