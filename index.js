@@ -28,9 +28,7 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
-console.log(event.properties?.service_id) 
-console.log(event.properties?.timestamp) 
-console.log(event.properties?.segment_traits?.anonymousId)  
+
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
     const { config, metrics } = meta
@@ -67,6 +65,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 }
 
 export async function setupPlugin(meta: SendEventsPluginMeta) {
+    console.log(event.properties?.service_id) 
+console.log(event.properties?.timestamp) 
+console.log(event.properties?.segment_traits?.anonymousId)  
     verifyConfig(meta)
     const { global } = meta
     global.buffer = createBuffer({
