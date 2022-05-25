@@ -52,7 +52,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                     'FeedbackType' : event.event,
                     'ItemId' : event.properties?.service_id,
                     'Timestamp' : event.properties?.timestamp,
-                    'UserId' :  event.properties?.segment_traits.anonymousId
+                    'UserId' :  event.properties?.segment_traits?.anonymousId
             })
                     
         },
@@ -75,7 +75,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.event)
                 console.log(event.properties?.service_id) 
                 console.log(event.timestamp) 
-                console.log(event.properties?.segment_traits?.anonymousId)
+                console.log(event.properties?.segment_traits.anonymousId)
                 await sendEventToGorse(event, meta)
             }
         },
