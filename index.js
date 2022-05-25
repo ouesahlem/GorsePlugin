@@ -28,6 +28,7 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
+console.log(event.properties?.service_id) 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
     const { config, metrics } = meta
