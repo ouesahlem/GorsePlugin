@@ -50,7 +50,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
             body: JSON.stringify({ 
                     'Comment': '',
                     'FeedbackType' : event.event,
-                    'ItemId' : event.properties?.service_id,
+                    'ItemId' : event.properties?.cart_id,
                     'Timestamp' : event.properties?.timestamp,
                     'UserId' :  event.properties?.segment_traits?.anonymousId
             })
@@ -73,7 +73,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
         onFlush: async (events) => {
             for (const event of events) {
                 console.log(event.event)
-                console.log(event.properties?.service_id) 
+                console.log(event.properties?.cart_id) 
                 console.log(event.timestamp) 
                 console.log(event.properties?.segment_traits?.anonymousId)
                 await sendEventToGorse(event, meta)
