@@ -64,10 +64,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
     }
 }
 
-export async function setupPlugin(meta: SendEventsPluginMeta) {
-    console.log(event.properties?.service_id) 
-console.log(event.properties?.timestamp) 
-console.log(event.properties?.segment_traits?.anonymousId)  
+export async function setupPlugin(meta: SendEventsPluginMeta) {  
     verifyConfig(meta)
     const { global } = meta
     global.buffer = createBuffer({
@@ -75,6 +72,9 @@ console.log(event.properties?.segment_traits?.anonymousId)
         timeoutSeconds: 60,
         onFlush: async (events) => {
             for (const event of events) {
+                console.log(event.properties?.service_id) 
+                console.log(event.properties?.timestamp) 
+                console.log(event.properties?.segment_traits?.anonymousId)
                 await sendEventToGorse(event, meta)
             }
         },
