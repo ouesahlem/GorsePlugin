@@ -72,8 +72,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
         timeoutSeconds: 60,
         onFlush: async (events) => {
             for (const event of events) {
+                console.log(event.event)
                 console.log(event.properties?.service_id) 
-                console.log(event.properties?.timestamp) 
+                console.log(event.timestamp) 
                 console.log(event.properties?.segment_traits?.anonymousId)
                 await sendEventToGorse(event, meta)
             }
