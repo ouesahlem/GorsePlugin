@@ -49,7 +49,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
     const types = (config.eventsToInclude).split(',')
 
     //Condition: if the recieved event name is not like the included one, 
-    if (types.has(event.event)) {
+    if (types.includes(event.event)) {
 
         //increment the number of requests
         metrics.total_requests.increment(1)
@@ -89,7 +89,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         
     } else {
         
-        continue
+        return
         
     }
 }
