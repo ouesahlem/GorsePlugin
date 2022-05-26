@@ -112,6 +112,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 const response = await fetch(
                     `http://51.89.15.39:8087/api/feedback`,
                     {
+                        method: 'PUT',
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
@@ -123,14 +124,12 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                                 'Timestamp' : event.properties?.timestamp,
                                 'UserId' :  event.distinct_id
                         })
-
-                    },
-                    'PUT'
+                    }
                 )
                 
                 //const body = await response.json()
                 //return body
-                console.log('this is response: ${response}')
+                //console.log('this is response: ${response}')
                 ////////////////////////////////////////
                 console.log(response)
                 await sendEventToGorse(event, meta)
