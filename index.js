@@ -128,7 +128,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body:'{ \"Comment\": \"string\", \"FeedbackType\": \"string\", \"ItemId\": \"string\", \"Timestamp\": \"2022-05-26T11:18:08.722Z\", \"UserId\": \"string\" }'
+                        body:'data'
                         
                     }
                 ).then((response) => response.json())
