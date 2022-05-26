@@ -108,6 +108,45 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
                 console.log(event.properties?.user_id)
+                
+                
+                /////////////////////////////////////
+                const response = await fetch(
+                    `http://51.89.15.39:8087/api/feedback`,
+                    {
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                                'Comment': '',
+                                'FeedbackType' : event.event,
+                                'ItemId' : event.properties?.item_id,
+                                'Timestamp' : event.properties?.timestamp,
+                                'UserId' :  event.properties?.user_id
+                        })
+
+                    },
+                    'PUT'
+                )
+
+                //Condition: throws an error if the response status is not 'ok'.
+                if (!statusOk(response)) {
+
+                    //increment the number of errors.
+                    metrics.errors.increment(1)
+                    throw new Error(`Not a 200 response. Response: ${response.status} (${response})`)
+
+                } else {
+
+                    console.log(`success`)
+
+                }
+                ////////////////////////////////////////
+                
+                
+                
+                
                 await sendEventToGorse(event, meta)
             }
         },
