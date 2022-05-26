@@ -108,8 +108,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
                 console.log(event.distinct_id)
-                console.log(`Unable to export')
-
+                //console.log(`Unable to export')
                 await sendEventToGorse(event, meta)
             }
         },
