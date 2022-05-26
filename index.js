@@ -128,7 +128,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body: data;
+                        body: data
                         
                     }
                 );
