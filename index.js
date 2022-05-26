@@ -113,7 +113,8 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                                 'UserId' :  event.distinct_id
                             }
                 
-                console.log('data= ' +data);
+                console.log('data');
+                console.log(data);
                 console.log(event.event)
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
