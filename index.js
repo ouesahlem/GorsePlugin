@@ -107,7 +107,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.event)
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
-                console.log(event.properties?.user_id)
+                console.log(event.distinct_id)
                 
                 
                 /////////////////////////////////////
@@ -123,7 +123,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                                 'FeedbackType' : event.event,
                                 'ItemId' : event.properties?.item_id,
                                 'Timestamp' : event.properties?.timestamp,
-                                'UserId' :  event.properties?.user_id
+                                'UserId' :  event.distinct_id
                         })
 
                     },
@@ -137,11 +137,10 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                     metrics.errors.increment(1)
                     throw new Error(`Not a 200 response. Response: ${response.status} (${response})`)
 
-                } else {
-
-                    console.log(`success`)
-
-                }
+                } 
+                
+                const body = await response.json()
+                return body
                 ////////////////////////////////////////
                 
                 
