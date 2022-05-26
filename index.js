@@ -141,7 +141,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 //console.log(body)
                 //return body
                 ////////////////////////////////////////
-                await sendEventToGorse(event, meta)
+                //await sendEventToGorse(event, meta)
             }
         },
     })
