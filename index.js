@@ -65,9 +65,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                 body: JSON.stringify({ 
                         'Comment': '',
                         'FeedbackType' : event.event,
-                        'ItemId' : event.properties?.cart_id,
+                        'ItemId' : event.properties?.item_id,
                         'Timestamp' : event.properties?.timestamp,
-                        'UserId' :  event.properties?.segment_traits?.anonymousId
+                        'UserId' :  event.properties?.user_id
                 })
 
             },
@@ -105,9 +105,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
         onFlush: async (events) => {
             for (const event of events) {
                 console.log(event.event)
-                console.log(event.properties?.cart_id) 
+                console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
-                console.log(event.properties?.segment_traits?.anonymousId)
+                console.log(event.properties?.user_id)
                 await sendEventToGorse(event, meta)
             }
         },
