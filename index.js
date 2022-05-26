@@ -131,10 +131,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                         body: data
                         
                     }
-                ).then(function(res) {
-                    console.log(res)
-                }
-             
+                ).then(function(res) {console.log(res) } )    
             }
         }
     })
