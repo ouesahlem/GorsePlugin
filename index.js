@@ -104,28 +104,32 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
         timeoutSeconds: 60,
         onFlush: async (events) => {
             for (const event of events) {
+                
+           var data=     JSON.stringify({ 
+                                'Comment': '',
+                                'FeedbackType' : event.event,
+                                'ItemId' : event.properties?.item_id,
+                                'Timestamp' : event.properties?.timestamp,
+                                'UserId' :  event.distinct_id
+                            }
+                
+                console.log('data= ' +data);
                 console.log(event.event)
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
                 console.log(event.distinct_id)
                 /////////////////////////////////////
                 const response = await fetch(
-                    `http://51.89.15.39:8087/api/feedback`,
+                    'http://51.89.15.39:8087/api/feedback',
                     {
                         method: 'PUT',
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body: [
-                            JSON.stringify({ 
-                                'Comment': '',
-                                'FeedbackType' : event.event,
-                                'ItemId' : event.properties?.item_id,
-                                'Timestamp' : event.properties?.timestamp,
-                                'UserId' :  event.distinct_id
-                            })
-                        ]
+                        body: data;
+                        const content = await response.json();
+                        console.log(content);
                     }
                 )
                 console.log(response.status)
