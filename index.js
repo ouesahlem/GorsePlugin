@@ -102,25 +102,23 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     global.buffer = createBuffer({
         limit: 5 * 1024 * 1024, // 1 MB
         timeoutSeconds: 1,
-        onFlush: async (events) => {
-            for (const event of events) {
-                
-           var data=   JSON.stringify({ 
+        onFlush: async (events) => {  console.error('onFlush:'); })
+}
+
+//onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
+export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
+    const eventSize = JSON.stringify(event).length
+    global.buffer.add(event, eventSize)
+    console.log('onEvent:');
+	
+	var data=   JSON.stringify({ 
                                 'Comment': '',
                                 'FeedbackType' : event.event,
                                 'ItemId' : event.properties?.item_id,
                                 'Timestamp' : event.properties?.timestamp,
                                 'UserId' :  event.distinct_id
-                            })
-                
-                //console.log('data');
-                console.log(data);
-                console.log(event.event)
-                console.log(event.properties?.item_id) 
-                console.log(event.timestamp) 
-                console.log(event.distinct_id)
-                /////////////////////////////////////
-               await fetch(
+                            });
+	 await fetch(
                     'http://51.89.15.39:8087/api/feedback',
                     {
                         method: 'PUT',
@@ -128,7 +126,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body:'['+data+']'
+                        body:data
                         
                     }
                 ).then((response) => response.json())
@@ -140,16 +138,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 				.catch((error) => {
 				  console.error('Error:', error);
 				})
-            }
-        }
-    })
-}
-
-//onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
-export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
-    const eventSize = JSON.stringify(event).length
-    global.buffer.add(event, eventSize)
-    console.log('onEvent:');
+	
 }
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
