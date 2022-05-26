@@ -102,7 +102,8 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     global.buffer = createBuffer({
         limit: 5 * 1024 * 1024, // 1 MB
         timeoutSeconds: 1,
-        onFlush: async (events) => {  console.error('onFlush:'); })
+        onFlush: async (events) => {  console.error('onFlush:');}
+    })
 }
 
 //onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
