@@ -105,7 +105,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
         onFlush: async (events) => {
             for (const event of events) {
                 
-           var data=     JSON.stringify({ 
+           var data=   JSON.stringify({ 
                                 'Comment': '',
                                 'FeedbackType' : event.event,
                                 'ItemId' : event.properties?.item_id,
@@ -149,6 +149,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
     const eventSize = JSON.stringify(event).length
     global.buffer.add(event, eventSize)
+    console.log('onEvent:');
 }
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
