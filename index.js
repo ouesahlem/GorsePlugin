@@ -136,7 +136,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 }
              
             }
-        },
+        }
     })
 }
 
