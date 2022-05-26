@@ -129,23 +129,12 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                     },
                     'PUT'
                 )
-
-                //Condition: throws an error if the response status is not 'ok'.
-                if (!statusOk(response)) {
-
-                    //increment the number of errors.
-                    metrics.errors.increment(1)
-                    throw new Error(`Not a 200 response. Response: ${response.status} (${response})`)
-
-                } 
                 
-                const body = await response.json()
-                return body
-                console.log('this is body: ${body}')
+                //const body = await response.json()
+                //return body
+                console.log('this is response: ${response}')
                 ////////////////////////////////////////
-                
-                
-                
+
                 
                 await sendEventToGorse(event, meta)
             }
