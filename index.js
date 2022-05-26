@@ -120,7 +120,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.timestamp) 
                 console.log(event.distinct_id)
                 /////////////////////////////////////
-                const response = await fetch(
+               await fetch(
                     'http://51.89.15.39:8087/api/feedback',
                     {
                         method: 'PUT',
@@ -132,16 +132,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                         
                     }
                 ).then(function(res) {
-                    console.log(res.json())
+                    console.log(res)
                 }
-                //const content = await response.json();
-                 //       console.log(content);
-             //   console.log(response.status)
-                //const body = await response.json()
-                //console.log(body)
-                //return body
-                ////////////////////////////////////////
-                //await sendEventToGorse(event, meta)
+             
             }
         },
     })
