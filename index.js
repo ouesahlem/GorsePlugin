@@ -132,11 +132,11 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                         
                     }
                 ).then(function(res) {
-                    console.log(response.json())
+                    console.log(res.json())
                 }
                 //const content = await response.json();
                  //       console.log(content);
-                console.log(response.status)
+             //   console.log(response.status)
                 //const body = await response.json()
                 //console.log(body)
                 //return body
