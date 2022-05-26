@@ -129,10 +129,11 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                             'Content-Type': 'application/json'
                         },
                         body: data;
-                        const content = await response.json();
-                        console.log(content);
+                        
                     }
-                )
+                );
+                const content = await response.json();
+                        console.log(content);
                 console.log(response.status)
                 //const body = await response.json()
                 //console.log(body)
