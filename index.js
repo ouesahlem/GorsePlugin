@@ -76,10 +76,15 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         
         //Condition: throws an error if the response status is not 'ok'.
         if (!statusOk(response)) {
+            
+            //increment the number of errors.
             metrics.errors.increment(1)
-            throw new Error(`Not a 200 response from event hook ${response.status}. Response: ${response}`)
+            throw new Error(`Not a 200 response. Response: ${response.status} (${response})`)
+            
         } else {
-            console.log(`okk`)
+            
+            console.log(`success`)
+            
         }
         
     } else {
@@ -120,6 +125,8 @@ export function teardownPlugin({ global }: SendEventsPluginMeta) {
     global.buffer.flush()
 }
 
+//statusOk function processes the response to test the HTTP code. 
+// Test that the http status code is 200
 function statusOk(res: Response) {
     return String(res.status)[0] === '2'
 }
