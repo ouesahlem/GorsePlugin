@@ -61,8 +61,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
     if (!statusOk(response)) {
         metrics.errors.increment(1)
         throw new Error(`Not a 200 response from event hook ${response.status}. Response: ${response}`)
+    } else {
+        console.log(`okk`)
     }
-    console.log(`okk`)
 }
 
 export async function setupPlugin(meta: SendEventsPluginMeta) {  
