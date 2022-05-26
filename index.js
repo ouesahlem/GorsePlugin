@@ -111,7 +111,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                                 'ItemId' : event.properties?.item_id,
                                 'Timestamp' : event.properties?.timestamp,
                                 'UserId' :  event.distinct_id
-                            }
+                            })
                 
                 //console.log('data');
                 console.log(data);
