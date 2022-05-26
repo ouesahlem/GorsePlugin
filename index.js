@@ -108,7 +108,31 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                 console.log(event.properties?.item_id) 
                 console.log(event.timestamp) 
                 console.log(event.distinct_id)
-                //console.log(`Unable to export')
+                /////////////////////////////////////
+                const response = await fetch(
+                    `http://51.89.15.39:8087/api/feedback`,
+                    {
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                                'Comment': '',
+                                'FeedbackType' : event.event,
+                                'ItemId' : event.properties?.item_id,
+                                'Timestamp' : event.properties?.timestamp,
+                                'UserId' :  event.distinct_id
+                        })
+
+                    },
+                    'PUT'
+                )
+                
+                //const body = await response.json()
+                //return body
+                console.log('this is response: ${response}')
+                ////////////////////////////////////////
+                console.log(response)
                 await sendEventToGorse(event, meta)
             }
         },
