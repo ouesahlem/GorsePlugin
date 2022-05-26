@@ -129,9 +129,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                     }
                 )
                 console.log(response.status)
-                const body = await response.json()
-                console.log(body)
-                return body
+                //const body = await response.json()
+                //console.log(body)
+                //return body
                 ////////////////////////////////////////
                 await sendEventToGorse(event, meta)
             }
