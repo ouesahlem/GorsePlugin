@@ -33,9 +33,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 
     const { config, metrics } = meta
 
-    const types = (config.eventsToInclude || '').split(',')
+    const types = (config.eventsToInclude).split(',')
 
-    if (!types.includes(event.event) || !event.properties) {
+    if (!types.includes(event.event)) {
         return
     }
 
@@ -62,9 +62,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         metrics.errors.increment(1)
         throw new Error(`Not a 200 response from event hook ${response.status}. Response: ${response}`)
     }
-    if (statusOk(response)) {
-        console.log(`okk`)
-    }
+    console.log(`okk`)
 }
 
 export async function setupPlugin(meta: SendEventsPluginMeta) {  
@@ -85,11 +83,13 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     })
 }
 
+//onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
 export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
     const eventSize = JSON.stringify(event).length
     global.buffer.add(event, eventSize)
 }
 
+//teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
 export function teardownPlugin({ global }: SendEventsPluginMeta) {
     global.buffer.flush()
 }
