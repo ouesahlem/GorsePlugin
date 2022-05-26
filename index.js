@@ -117,13 +117,15 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ 
+                        body: [
+                            JSON.stringify({ 
                                 'Comment': '',
                                 'FeedbackType' : event.event,
                                 'ItemId' : event.properties?.item_id,
                                 'Timestamp' : event.properties?.timestamp,
                                 'UserId' :  event.distinct_id
-                        })
+                            })
+                        ]
                     }
                 )
                 console.log(response.status)
