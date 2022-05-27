@@ -99,7 +99,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 }
 
 //onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
-export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
+export async function onEvent(event: PluginEvent, meta : SendEventsPluginMeta) {
+    verifyConfig(meta)
+    const { global } = meta
     const eventSize = JSON.stringify(event).length
     global.buffer.add(event, eventSize)
     await sendEventToGorse(event, meta)
