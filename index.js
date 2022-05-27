@@ -112,6 +112,8 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
     global.buffer.add(event, eventSize)
     console.log('onEvent:');
 	
+	console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"${event.event}\",  \"ItemId\": \"${event.event}\",  \"Timestamp\": \"${event.properties?.timestamp}\",  \"UserId\": \"${event.distinct_id}\"}]')
+	
 	var data=   JSON.stringify({ 
                                 'Comment': '',
                                 'FeedbackType' : event.event,
