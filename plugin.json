@@ -10,7 +10,8 @@
             "name": "Events to include",
             "default": "item_clicked,item_liked",
             "type": "string",
-            "hint": "Comma separated list of events to include"
+            "hint": "Comma separated list of events to include",
+            "required": true
         },
         {
             "key": "RequestURL",
@@ -24,7 +25,8 @@
             "key": "MethodType",
             "name": "The type of method for the request url",
             "default": "PUT",
-            "type": "string"
+            "type": "string",
+            "required": true
         }
     ]
 }
