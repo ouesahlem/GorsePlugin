@@ -102,7 +102,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     global.buffer = createBuffer({
         limit: 5 * 1024 * 1024, // 1 MB
         timeoutSeconds: 1,
-        onFlush: async (events) => {  console.error('onFlush:');}
+        onFlush: async (events) => {  console.log('onFlush:');}
     })
 }
 
@@ -129,7 +129,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body:'[{\"Comment\": \"\",  \"FeedbackType\": \"${event.event}\",  \"ItemId\": \"${event.properties?.item_id}\",  \"Timestamp\": \"${event.properties?.timestamp}\",  \"UserId\": \"${event.distinct_id}\"}]'
+                    body:"[ { \"Comment\": \"\", \"FeedbackType\": \"${event.event}\", \"ItemId\": \"${event.properties?.item_id}\", \"Timestamp\": \"${event.timestamp}\", \"UserId\": \"${event.distinct_id}\" }]"
                         
                     }
                 ).then((response) => response.json())
