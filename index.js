@@ -23,6 +23,7 @@ interface SendEventsPluginMeta extends PluginMeta {
     //and configured via the PostHog interface.
     config: {
         eventsToInclude: string
+	RequestURL: string
     },
     
     //global object is used for sharing functionality between setupPlugin 
@@ -55,11 +56,12 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         metrics.total_requests.increment(1)
         
 	//data
+	const url = config.RequestURL
 	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
         
 	//fetch
         await fetch(
-                    'http://51.89.15.39:8087/api/feedback',
+                    url,
                     {
                         method: 'POST',
                         headers: {
