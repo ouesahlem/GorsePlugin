@@ -26,6 +26,7 @@
             "name": "The type of method for the request url",
             "default": "PUT",
             "type": "string",
+            "hint": "GET, PUT, POST or DELETE",
             "required": true
         }
     ]
