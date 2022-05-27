@@ -122,6 +122,8 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
 	const g = '\",  \"UserId\": \"'
 	const h = new String(event.distinct_id)
 	const i = '\"}]'
+	const j = '\'
+	console.log(j)
 	
 	const result = a + b + c + d + e + f + g + h + i
 	console.log(result)
