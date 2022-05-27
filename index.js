@@ -54,39 +54,31 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         //increment the number of requests
         metrics.total_requests.increment(1)
         
-        //fetch
-        const response = await fetch(
-            `http://51.89.15.39:8087/api/feedback`,
-            {
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                        'Comment': '',
-                        'FeedbackType' : event.event,
-                        'ItemId' : event.properties?.item_id,
-                        'Timestamp' : event.properties?.timestamp,
-                        'UserId' :  event.properties?.user_id
-                })
-
-            },
-            'PUT'
-        )
+	//data
+	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
         
-        //Condition: throws an error if the response status is not 'ok'.
-        if (!statusOk(response)) {
-            
-            //increment the number of errors.
-            metrics.errors.increment(1)
-            throw new Error(`Not a 200 response. Response: ${response.status} (${response})`)
-            
-        } else {
-            
-            console.log(`success`)
-            
-        }
-        
+	//fetch
+        await fetch(
+                    'http://51.89.15.39:8087/api/feedback',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    body: data
+                        
+                    }
+                ).then((response) => response.json())
+				//Then with the data from the response in JSON...
+				.then((data) => {
+				console.log('Success:', data);
+				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error:', error);
+				})
+	    
     } else {
         
         return
@@ -110,51 +102,10 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMeta) {
     const eventSize = JSON.stringify(event).length
     global.buffer.add(event, eventSize)
-    console.log('onEvent:');
-	
-	console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-	console.log('[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]')
-	
-	const results = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-	
-	
-	var data=   JSON.stringify({ 
-                                'Comment': '',
-                                'FeedbackType' : event.event,
-                                'ItemId' : event.properties?.item_id,
-                                'Timestamp' : event.properties?.timestamp,
-                                'UserId' :  event.distinct_id
-                            });
-	 await fetch(
-                    'http://51.89.15.39:8087/api/feedback',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                    body: results
-                        
-                    }
-                ).then((response) => response.json())
-				//Then with the data from the response in JSON...
-				.then((data) => {
-				console.log('Success:', data);
-				})
-				//Then with the error genereted...
-				.catch((error) => {
-				  console.error('Error:', error);
-				})
-	
+    await sendEventToGorse(event, meta)
 }
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
 export function teardownPlugin({ global }: SendEventsPluginMeta) {
     global.buffer.flush()
-}
-
-//statusOk function processes the response to test the HTTP code. 
-// Test that the http status code is 200
-function statusOk(res: Response) {
-    return String(res.status)[0] === '2'
 }
