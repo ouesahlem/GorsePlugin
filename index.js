@@ -115,7 +115,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
 	var data=   JSON.stringify({ 
                                 'Comment': '',
                                 'FeedbackType' : event.event,
-                                'ItemId' : event.properties?.item_id,
+                                'ItemId' : event.event,
                                 'Timestamp' : event.properties?.timestamp,
                                 'UserId' :  event.distinct_id
                             });
@@ -127,7 +127,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body:'[ { \"Comment\": \"\", \"FeedbackType\": \' + event.event + '\, \"ItemId\": \' + event.properties?.item_id + '\, \"Timestamp\": \' + event.properties?.timestamp + '\, \"UserId\": \' + event.distinct_id + '\ }]'
+                    body:'[{\"Comment\": \"\",  \"FeedbackType\": \"${event.event}\",  \"ItemId\": \"${event.event}\",  \"Timestamp\": \"${event.properties?.timestamp}\",  \"UserId\": \"${event.distinct_id}\"}]'
                         
                     }
                 ).then((response) => response.json())
