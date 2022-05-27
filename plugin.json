@@ -10,6 +10,20 @@
             "name": "Events to include",
             "type": "string",
             "hint": "Comma separated list of events to include"
+        },
+        {
+            "key": "RequestURL",
+            "name": "Request URL",
+            "default": "http://51.89.15.39:8087/api/feedback",
+            "type": "string",
+            "hint": "In the format of http://<Host>:<Port>/api/<TableName>",
+            "required": true
+        },
+        {
+            "key": "MethodType",
+            "name": "The type of method for the request url",
+            "default": "PUT",
+            "type": "string"
         }
     ]
 }
