@@ -122,7 +122,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
 	const g = '\",  \"UserId\": \"'
 	const h = new String(event.distinct_id)
 	const i = '\"}]'*/
-	const j = '\'
+	const j = '[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]'
 	console.log(j)
 	
 	//const result = a + b + c + d + e + f + g + h + i
