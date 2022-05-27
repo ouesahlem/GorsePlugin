@@ -8,6 +8,7 @@
         {
             "key": "eventsToInclude",
             "name": "Events to include",
+            "default": "item_clicked,item_liked",
             "type": "string",
             "hint": "Comma separated list of events to include"
         },
