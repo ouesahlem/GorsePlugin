@@ -112,18 +112,8 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
     global.buffer.add(event, eventSize)
     console.log('onEvent:');
 	
-	//console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.properties?.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-	/*const a = '[{\"Comment\": \"\",  \"FeedbackType\": \"'
-	const b = new String(event.event)
-	const c = '\",  \"ItemId\": \"'
-	const d = new String(event.properties?.item_id)
-	const e = '\",  \"Timestamp\": \"'
-	const f = new String(event.properties?.timestamp)
-	const g = '\",  \"UserId\": \"'
-	const h = new String(event.distinct_id)
-	const i = '\"}]'*/
-	const j = '[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]'
-	console.log(j)
+	console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.properties?.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	console.log('[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]')
 	
 	//const result = a + b + c + d + e + f + g + h + i
 	//console.log(result)
