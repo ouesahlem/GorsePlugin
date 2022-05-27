@@ -129,7 +129,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body:'[{\"Comment\": \"\",  \"FeedbackType\": \"aaa\",  \"ItemId\": \"aaa\",  \"Timestamp\": \"aaa\",  \"UserId\": \"aaa\"}]'
+                    body:'[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]'
                         
                     }
                 ).then((response) => response.json())
