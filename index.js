@@ -115,7 +115,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
 	console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	console.log('[{\"Comment\": \"ss\",  \"FeedbackType\": \"sss\",  \"ItemId\": \"ssss\",  \"Timestamp\": \"2022-05-26T17:21:32.838Z\",  \"UserId\": \"string\"}]')
 	
-	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	const results = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	
 	
 	var data=   JSON.stringify({ 
@@ -133,7 +133,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body: data
+                    body: results
                         
                     }
                 ).then((response) => response.json())
