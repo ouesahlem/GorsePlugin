@@ -24,6 +24,7 @@ interface SendEventsPluginMeta extends PluginMeta {
     config: {
         eventsToInclude: string
 	RequestURL: string
+	MethodType: string
     },
     
     //global object is used for sharing functionality between setupPlugin 
@@ -57,13 +58,14 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
         
 	//data
 	const url = config.RequestURL
+	const method_type = config.MethodType
 	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
         
 	//fetch
         await fetch(
                     url,
                     {
-                        method: 'POST',
+                        method: method_type,
                         headers: {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
