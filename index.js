@@ -112,7 +112,20 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
     global.buffer.add(event, eventSize)
     console.log('onEvent:');
 	
-	console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.event + '\",  \"Timestamp\": \"' + event.properties?.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	//console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.properties?.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	const a = '[{\"Comment\": \"\",  \"FeedbackType\": \"'
+	const b = event.event.toString()
+	const c = '\",  \"ItemId\": \"'
+	const d = event.properties?.item_id.toString()
+	const e = '\",  \"Timestamp\": \"'
+	const f = event.properties?.timestamp.toString()
+	const g = '\",  \"UserId\": \"'
+	const h = event.distinct_id.toString()
+	const i = '\"}]'
+	
+	const result = a + b + c + d + e + f + g + h + i
+	console.log(result)
+	
 	
 	var data=   JSON.stringify({ 
                                 'Comment': '',
@@ -129,7 +142,7 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body:'[{"Comment": "",  "FeedbackType": "' + event.event + '",  "ItemId": "' + event.event + '",  "Timestamp": "' + event.properties?.timestamp + '",  "UserId": "' + event.distinct_id + '"}]'
+                    body: result
                         
                     }
                 ).then((response) => response.json())
