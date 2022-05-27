@@ -26,7 +26,7 @@
             "name": "The type of method for the request url",
             "default": "PUT",
             "type": "string",
-            "hint": "Insert one of these method types : GET, PUT, POST or DELETE",
+            "hint": "Use one of these method types : PUT (to insert feedbacks. Existed feedback will be overwritten) or POST (to Insert feedbacks. Ignore insertion if feedback exists)",
             "required": true
         }
     ]
