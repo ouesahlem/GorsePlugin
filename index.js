@@ -96,10 +96,9 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     verifyConfig(meta)
     const { global } = meta
     global.buffer = createBuffer({
-        limit: 1 * 1024 * 1024, // 1 MB
-        timeoutSeconds: 1,
+        limit: 5 * 1024 * 1024, // 5 MB
+        timeoutSeconds: 60,
 	onFlush: async (events) => {
-	    console.log('onFlush')
 	    const timer1 = new Date().getTime()
 	    for (const event of events) {
 		    await sendEventToGorse(event, meta)
