@@ -114,13 +114,13 @@ export async function onEvent(event: PluginEvent, { global }: SendEventsPluginMe
 	
 	//console.log('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.properties?.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	const a = '[{\"Comment\": \"\",  \"FeedbackType\": \"'
-	const b = event.event.toString()
+	const b = new String(event.event)
 	const c = '\",  \"ItemId\": \"'
-	const d = event.properties?.item_id.toString()
+	const d = new String(event.properties?.item_id)
 	const e = '\",  \"Timestamp\": \"'
-	const f = event.properties?.timestamp.toString()
+	const f = new String(event.properties?.timestamp)
 	const g = '\",  \"UserId\": \"'
-	const h = event.distinct_id.toString()
+	const h = new String(event.distinct_id)
 	const i = '\"}]'
 	
 	const result = a + b + c + d + e + f + g + h + i
