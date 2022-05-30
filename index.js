@@ -59,9 +59,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	//data
 	const url = config.RequestURL
 	const method_type = config.MethodType
-	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 
-	//fetch
+	//fetch : add feedback
         await fetch(
                     url,
                     {
@@ -71,13 +71,38 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body: data
+                    body: feedback
                         
                     }
                 ).then((response) => JSON.stringify(response.json()))
 				//Then with the data from the response in JSON...
 				.then((data) => {
-				console.log('Success:', data);
+				console.log('Success: feedback inserted');
+				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error:', error);
+				})
+	    
+	    const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	    
+	    //fetch : update item
+	    await fetch(
+                    'http://51.89.15.39:8087/api/item/' + event.properties?.item_id,
+                    {
+                        method: 'PATCH',
+                        headers: {
+			    'User-Agent': '*',
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    body: items
+                        
+                    }
+                ).then((response) => JSON.stringify(response.json()))
+				//Then with the data from the response in JSON...
+				.then((data) => {
+				console.log('Success: item inserted');
 				})
 				//Then with the error genereted...
 				.catch((error) => {
