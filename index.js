@@ -60,9 +60,17 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	const url = config.RequestURL
 	const method_type = config.MethodType
 	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-        
-	//fetch
-        await fetch(
+
+	function timeout(ms, promise) {
+	  return new Promise(function(resolve, reject) {
+	    setTimeout(function() {
+	      reject(new Error('Error: TimeoutError: Script execution timed out after promise waited for', ms/1000 ,'seconds'))
+	    }, ms)
+	    promise.then(resolve, reject)
+	  })
+	}
+	
+	timeout(60 * 1000, fetch(
                     url,
                     {
                         method: method_type,
@@ -81,7 +89,30 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				//Then with the error genereted...
 				.catch((error) => {
 				  console.error('Error:', error);
+				}).catch(function(error) {
+	  				console.error(error)
+	})
+	//fetch
+        /*await fetch(
+                    url,
+                    {
+                        method: method_type,
+                        headers: {
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    body: data
+                        
+                    }
+                ).then((response) => response.json())
+				//Then with the data from the response in JSON...
+				.then((data) => {
+				console.log('Success:', data);
 				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error:', error);
+				})*/
 	    
     } else {
         
@@ -96,7 +127,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
     verifyConfig(meta)
     const { global } = meta
     global.buffer = createBuffer({
-        limit: 5 * 1024 * 1024, // 5 MB
+        limit: 1 * 1024 * 1024, // 1 MB
         timeoutSeconds: 1,
 	onFlush: async (events) => {
 	    const timer1 = new Date().getTime()
