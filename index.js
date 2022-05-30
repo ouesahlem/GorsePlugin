@@ -61,47 +61,14 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	const method_type = config.MethodType
 	const data = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 
-	function timeout(ms, promise) {
-	  return new Promise(function(resolve, reject) {
-	    setTimeout(function() {
-	      reject(new Error('Error: TimeoutError: Script execution timed out after promise waited for', ms/1000 ,'seconds'))
-	    }, ms)
-	    promise.then(resolve, reject)
-	  })
-	}
-	
-	timeout(60 * 1000, fetch(
-                    url,
-                    {
-                        method: method_type,
-                        headers: {
-                            'accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                    	body: data 
-                    }
-                ).then((response) => response.json())
-				//Then with the data from the response in JSON...
-				.then((data) => {
-				console.log('Success:', data)
-				})
-				//Then with the error genereted...
-				.catch((error) => {
-				  console.error('Error:', error)
-				})
-		).then(function(response) {
-		  	// process response
-			console.log('Success:', response)
-		}).catch(function(error) {
-		  	// might be a timeout error
-			console.error('Error:', error)
-		})
 	//fetch
-        /*await fetch(
+        await fetch(
                     url,
                     {
                         method: method_type,
                         headers: {
+			    "User-Agent":
+           			 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36",
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
@@ -116,7 +83,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				//Then with the error genereted...
 				.catch((error) => {
 				  console.error('Error:', error);
-				})*/
+				})
 	    
     } else {
         
