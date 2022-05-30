@@ -78,20 +78,24 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body: data
-                        
+                    	body: data 
                     }
                 ).then((response) => response.json())
 				//Then with the data from the response in JSON...
 				.then((data) => {
-				console.log('Success:', data);
+				console.log('Success:', data)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
-				  console.error('Error:', error);
-				}).catch(function(error) {
-	  				console.error(error)
-	})
+				  console.error('Error:', error)
+				})
+		).then(function(response) {
+		  	// process response
+			console.log('Success:', response)
+		}).catch(function(error) {
+		  	// might be a timeout error
+			console.error('Error:', error)
+		})
 	//fetch
         /*await fetch(
                     url,
