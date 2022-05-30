@@ -42,6 +42,34 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
+async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
+	const { config, metrics } = meta
+	
+	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	    
+	    //fetch : update item
+	    await fetch(
+                    'http://51.89.15.39:8087/api/item/' + event.properties?.item_id,
+                    {
+                        method: 'PATCH',
+                        headers: {
+			    'User-Agent': '*',
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    body: items
+                        
+                    }
+                ).then((response) => JSON.stringify(response.json()))
+				//Then with the data from the response in JSON...
+				.then((data) => {
+				console.log('Success: item inserted');
+				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error:', error);
+				})
+}
 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
@@ -78,37 +106,12 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				//Then with the data from the response in JSON...
 				.then((data) => {
 				console.log('Success: feedback inserted');
+				await updateItem(event, meta)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
 				  console.error('Error:', error);
 				})
-	    
-	    const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
-	    
-	    //fetch : update item
-	    await fetch(
-                    'http://51.89.15.39:8087/api/item/' + event.properties?.item_id,
-                    {
-                        method: 'PATCH',
-                        headers: {
-			    'User-Agent': '*',
-                            'accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                    body: items
-                        
-                    }
-                ).then((response) => JSON.stringify(response.json()))
-				//Then with the data from the response in JSON...
-				.then((data) => {
-				console.log('Success: item inserted');
-				})
-				//Then with the error genereted...
-				.catch((error) => {
-				  console.error('Error:', error);
-				})
-	    
     } else {
         
         return
