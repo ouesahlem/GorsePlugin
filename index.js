@@ -72,6 +72,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 			.catch((error) => {
 			  console.error('Error:', error);
 			})
+	clearTimeout(timeoutId)
 }
 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
@@ -118,6 +119,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				.catch((error) => {
 				  console.error('Error:', error)
 				})
+	    clearTimeout(timeoutId)
     } else {
         
         return
