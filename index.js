@@ -100,7 +100,8 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body: feedback
+                    body: feedback,
+		    timeout: 90000
                         
                     }
                 ).then((response) => JSON.stringify(response.json()))
