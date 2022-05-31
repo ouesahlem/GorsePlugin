@@ -57,7 +57,8 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    	body: items
+                    	body: items,
+			timeout: 90000
                         
                 }
         ).then((response) => JSON.stringify(response.json()))
