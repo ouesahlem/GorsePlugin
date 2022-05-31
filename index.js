@@ -46,7 +46,9 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
 	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
-	    
+	const controller = new AbortController()
+	const timeoutId = setTimeout(() => controller.abort(), 90000)
+	
 	//fetch : update item
 	await fetch(
                 'http://51.89.15.39:8087/api/item/' + event.properties?.item_id,
@@ -58,7 +60,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
                             'Content-Type': 'application/json'
                         },
                     	body: items,
-			timeout: 90000
+			signal: controller.signal 
                         
                 }
         ).then((response) => JSON.stringify(response.json()))
@@ -89,7 +91,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	const url = config.RequestURL
 	const method_type = config.MethodType
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-
+	const controller = new AbortController()
+	const timeoutId = setTimeout(() => controller.abort(), 90000)
+	
 	//fetch : add feedback
         await fetch(
                     url,
@@ -101,7 +105,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                             'Content-Type': 'application/json'
                         },
                     body: feedback,
-		    timeout: 90000
+		    signal: controller.signal
                         
                     }
                 ).then((response) => JSON.stringify(response.json()))
