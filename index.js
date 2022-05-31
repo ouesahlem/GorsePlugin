@@ -47,7 +47,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	const { config, metrics } = meta
 	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
 	const controller = new AbortController()
-	const timeoutId = setTimeout(() => controller.abort(), 90000)
+	const timeoutId = setTimeout(() => controller.abort(), 60)
 	
 	//fetch : update item
 	await fetch(
@@ -93,7 +93,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	const method_type = config.MethodType
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	const controller = new AbortController()
-	const timeoutId = setTimeout(() => controller.abort(), 90000)
+	const timeoutId = setTimeout(() => controller.abort(), 60)
 	
 	//fetch : add feedback
         await fetch(
