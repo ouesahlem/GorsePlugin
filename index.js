@@ -69,6 +69,19 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
 			  console.error('Error:', error);
 			})
 }*/
+	
+// readChunks() reads from the provided reader and yields the results into an async iterable
+function readChunks(reader) {
+    return {
+        async* [Symbol.asyncIterator]() {
+            let readResult = await reader.read();
+            while (!readResult.done) {
+                yield readResult.value;
+                readResult = await reader.read();
+            }
+        },
+    };
+}
 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
@@ -100,13 +113,17 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                         },
                     body: feedback,
                     }
-                ).then((response) => JSON.stringify(response.json()))
+                ).then(async (response) => { 
+		       JSON.stringify(response.json())
+			// response.body is a ReadableStream
+        		const reader = response.body.getReader();
+			for await (const chunk of readChunks(reader)) {
+			    console.log(`received chunk of size ${chunk.length}`);
+			}
+			})
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
-					for await (const chunk of response.body.getIterator()) {
-						console.log('got', chunk)
-					}
 				})
 				//Then with the error genereted...
 				.catch((error) => {
