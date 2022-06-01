@@ -103,9 +103,9 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                 ).then((response) => JSON.stringify(response.json()))
 				//Then with the data from the response in JSON...
 				.then((data) => {
-				console.log('Success: feedback inserted')
-				for await (const chunk of response.body.getIterator()) {
-    					console.log('got', chunk);
+					console.log('Success: feedback inserted')
+					for await (const chunk of response.body.getIterator()) {
+						console.log('got', chunk)
 					}
 				})
 				//Then with the error genereted...
