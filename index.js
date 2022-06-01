@@ -42,7 +42,7 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
-/*async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
+async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
 	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
@@ -59,16 +59,16 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
                         },
                     	body: items,      
                 }
-        ).then((response) => JSON.stringify(response.json()))
+        ).then(async (response) => JSON.stringify(response.json()))
 			//Then with the data from the response in JSON...
 			.then((data) => {
 			console.log('Success: item inserted');
 			})
 			//Then with the error genereted...
 			.catch((error) => {
-			  console.error('Error:', error);
+			  console.error('Error',response.status,':', error);
 			})
-}*/
+}
 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
@@ -104,10 +104,11 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
+					await updateItem(event, meta)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
-				  console.error('Error:', error)
+				  console.error('Error',response.status,':', error)
 				})
     } else {
         
