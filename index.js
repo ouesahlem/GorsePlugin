@@ -104,7 +104,7 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
-					await updateItem(event, meta)
+					return updateItem(event, meta)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
