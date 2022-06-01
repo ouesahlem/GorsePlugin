@@ -42,12 +42,10 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
-async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
+/*async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
 	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
-	const controller = new AbortController()
-	const timeoutId = setTimeout(() => controller.abort(), 60)
 	
 	//fetch : update item
 	await fetch(
@@ -59,9 +57,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    	body: items,
-			signal: controller.signal 
-                        
+                    	body: items,      
                 }
         ).then((response) => JSON.stringify(response.json()))
 			//Then with the data from the response in JSON...
@@ -72,8 +68,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 			.catch((error) => {
 			  console.error('Error:', error);
 			})
-	clearTimeout(timeoutId)
-}
+}*/
 
 async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
@@ -92,8 +87,6 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	const url = config.RequestURL
 	const method_type = config.MethodType
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
-	const controller = new AbortController()
-	const timeoutId = setTimeout(() => controller.abort(), 60)
 	
 	//fetch : add feedback
         await fetch(
@@ -106,20 +99,19 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
                             'Content-Type': 'application/json'
                         },
                     body: feedback,
-		    signal: controller.signal
-                        
                     }
                 ).then((response) => JSON.stringify(response.json()))
 				//Then with the data from the response in JSON...
 				.then((data) => {
 				console.log('Success: feedback inserted')
-				updateItem(event, meta)
+				for await (const chunk of response.body.getIterator()) {
+    					console.log('got', chunk);
+					}
 				})
 				//Then with the error genereted...
 				.catch((error) => {
 				  console.error('Error:', error)
 				})
-	    clearTimeout(timeoutId)
     } else {
         
         return
