@@ -45,11 +45,13 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
 async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
-	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	const itemCategories = event.properties?.item_type + ',' + event.properties?.item_category
+	const items = new String('{ \"Categories\": [ \"' + itemCategories + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
 	
 	//fetch : update item
 	await fetch(
-                'http://51.89.15.39:8087/api/item/' + event.properties?.item_id,
+                'http://51.89.15.39:8087/api/item/' + itemID,
                 {
                         method: 'PATCH',
                         headers: {
@@ -86,7 +88,8 @@ async function sendEventToGorse(event: PluginEvent, meta: SendEventsPluginMeta) 
 	//data
 	const url = config.RequestURL
 	const method_type = config.MethodType
-	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	
 	//fetch : add feedback
         await fetch(
