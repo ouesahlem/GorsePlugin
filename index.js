@@ -46,7 +46,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
 	const itemID = event.properties?.item_type + '_' + event.properties?.item_id	
-	const categories = [event.properties?.item_type]
+	let categories = [event.properties?.item_type]
 	const cats = (event.properties?.item_category).split(',')
 	for (cat in cats) {
 		categories.push(cat)
