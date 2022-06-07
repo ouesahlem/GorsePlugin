@@ -46,13 +46,9 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	const { config, metrics } = meta
 	const itemID = event.properties?.item_type + '_' + event.properties?.item_id	
-	let categories = [event.properties?.item_category]
-	let ItemCategories = categories.push(event.properties?.item_type)
-	//const cats = (event.properties?.item_category).split(',')
-	/*for (cat in cats) {
-		categories.push(cat)
-	}*/
-	const items = new String('{ \"Categories\":' + ItemCategories + ', \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	const categories = [event.properties?.item_category]
+	categories.push(event.properties?.item_type)
+	const items = new String('{ \"Categories\":' + categories + ', \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
 	
 	//fetch : update item
 	await fetch(
