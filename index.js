@@ -48,7 +48,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	//data
 	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
-	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	const items = new String('{ \"Categories\":  \"' + event.properties?.item_category + '\" , \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
 	
 	//fetch : update item
 	await fetch(
