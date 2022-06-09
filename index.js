@@ -42,6 +42,37 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
+async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
+	
+	const { config, metrics } = meta
+	
+	//data
+	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	const items = new String('{ \"Categories\": [ \"' + event.properties?.item_category + '\" ], \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
+	
+	//fetch : update item
+	await fetch(
+                'http://51.89.15.39:8087/api/item/' + itemID,
+                {
+                        method: 'PATCH',
+                        headers: {
+			    'User-Agent': '*',
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    	body: items,      
+                }
+        ).then(async (response) => JSON.stringify(response.json()))
+			//Then with the data from the response in JSON...
+			.then((data) => {
+			console.log('Success: item inserted');
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+			  console.error('Error',response.status,':', error);
+			})
+}	
+
 async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
     const { config, metrics } = meta
@@ -77,6 +108,7 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
+					return updateItem(event, meta)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
