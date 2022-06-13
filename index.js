@@ -5,6 +5,11 @@ import { RetryError } from '@posthog/plugin-scaffold'
 
 // fetch only declared, as it's provided as a plugin VM global
 declare function fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
+	
+//function replace at
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
 
 //Specify metrics : 'total_requests' => sum of all http requests (events), 'errors' : sum of error responses (API). 
 export const metrics = {
@@ -47,11 +52,12 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	const { config, metrics } = meta
 	
 	//data
-	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
-	const items = new String('{ \"Categories\":   [\"' + event.properties?.item_category + '\"]  , \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
-	const cat = new String(event.properties?.item_category)
-	console.log(cat)
-	console.log(items)
+	var itemType = event.properties?.item_type
+	itemType = itemType.replace(/ /g,"_")
+	const itemID = itemType + '_' + event.properties?.item_id
+	var categories = new String(event.properties?.item_category)
+	categories = categories.replaceAt(0, itemType + "\", \"")
+	const items = new String('{ \"Categories\":   [\"' + categories + '\"]  , \"Comment\": \"' + event.properties?.item_price + '\", \"IsHidden\": true, \"Labels\": [ \"' + event.properties?.item_name + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
 	
 	//fetch : update item
 	await fetch(
