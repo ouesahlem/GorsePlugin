@@ -156,6 +156,10 @@ export async function onEvent(event: PluginEvent, { global } : SendEventsPluginM
     }
     const eventSize = JSON.stringify(event).length
     global.buffer.add(event, eventSize)
+	const counter = await cache.get('counter', 0)
+    cache.set('counter', counter + 1)
+	
+	console.log('counter=====>',counter);
 }
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
