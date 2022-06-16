@@ -187,6 +187,7 @@ export async function onEvent(event) {
   /*  if (!global.buffer) {
         throw new Error(`there is no buffer. setup must have failed, cannot process event: ${event.event}`)
     }*/
+	console.log('event',event);
     sendEventToGorse(event);
 	//sendFeedbackToGorse(event, meta);
 	//const eventSize = JSON.stringify(event).length
