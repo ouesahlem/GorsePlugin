@@ -150,7 +150,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 }
 
 //onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
-export async function onEvent(event: PluginEvent, { global } : SendEventsPluginMeta) {
+export async function onEvent(event: PluginEvent, { global,cache } : SendEventsPluginMeta) {
     if (!global.buffer) {
         throw new Error(`there is no buffer. setup must have failed, cannot process event: ${event.event}`)
     }
