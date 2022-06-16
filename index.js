@@ -192,7 +192,7 @@ export async function onEvent(event) {
 	//const eventSize = JSON.stringify(event).length
     //global.buffer.add(event, eventSize)
 
-
+}
 	
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
