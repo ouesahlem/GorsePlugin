@@ -141,6 +141,7 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 	onFlush: async (events) => {
 	    const timer1 = new Date().getTime()
 	    for (const event of events) {
+			console.log('on flush');
 		    await sendFeedbackToGorse(event, meta)
 	    }
 	    const timer2 = new Date().getTime()
