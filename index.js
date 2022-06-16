@@ -143,11 +143,11 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
                     {
                         method: method_type,
                         headers: {
-			    'User-Agent': '*',
+							'User-Agent': '*',
                             'accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                    body: feedback,
+						body: feedback,
                     }
                 ).then(async (response) => JSON.stringify(response.json()))
 				//Then with the data from the response in JSON...
@@ -186,11 +186,34 @@ export async function onEvent(event) {
   /*  if (!global.buffer) {
         throw new Error(`there is no buffer. setup must have failed, cannot process event: ${event.event}`)
     }*/
-	console.log('event',event);
-    sendEventToGorse(event);
-	//sendFeedbackToGorse(event, meta);
-	//const eventSize = JSON.stringify(event).length
-    //global.buffer.add(event, eventSize)
+	
+   const url = "http://51.89.15.39:8087/api/feedback"
+	const method_type = "PUT"
+	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	console.log('feedback==>',feedback);
+	//fetch : add feedback
+        await fetch(
+                    url,
+                    {
+                        method: method_type,
+                        headers: {
+							'User-Agent': '*',
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+						body: feedback,
+                    }
+                ).then(async (response) => JSON.stringify(response.json()))
+				//Then with the data from the response in JSON...
+				.then((data) => {
+					console.log('Success: feedback inserted')
+					//return updateItem(event, meta)
+				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error',response.status,':', error)
+				})
 
 }
 	
