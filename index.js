@@ -188,7 +188,7 @@ export async function onEvent(event) {
     }*/
 	
    const url = "http://51.89.15.39:8087/api/feedback"
-	const method_type = "PUT"
+	const method_type = "POST"
 	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	console.log('feedback==>',feedback);
@@ -204,7 +204,7 @@ export async function onEvent(event) {
                         },
 						body: feedback,
                     }
-                ).then(async (response) => JSON.stringify(response.json()))
+                )
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
@@ -212,7 +212,7 @@ export async function onEvent(event) {
 				})
 				//Then with the error genereted...
 				.catch((error) => {
-				  console.error('Error',response.status,':', error)
+				  console.error('Error:', error)
 				})
 
 }
