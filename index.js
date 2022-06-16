@@ -160,12 +160,8 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 				.catch((error) => {
 				  console.error('Error',response.status,':', error)
 				})
-    } else {
-        
-        return
-        
-    }
-}
+    } 
+
 //setupPlugin function is used to dynamically set up configuration.  
 //It takes only an object of type PluginMeta as a parameter and does not return anything.
 export async function setupPlugin(meta: SendEventsPluginMeta) {  
