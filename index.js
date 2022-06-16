@@ -130,8 +130,7 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
     }
 }
     async function sendEventToGorse(event) {
-
-        
+  console.log('sendEventToGorse');
 	//data
 	const url = "http://51.89.15.39:8087/api/feedback"
 	const method_type = "PUT"
