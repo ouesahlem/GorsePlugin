@@ -129,11 +129,47 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
         
     }
 }
-    
+    async function sendEventToGorse(event) {
+
+        
+	//data
+	const url = "http://51.89.15.39:8087/api/feedback"
+	const method_type = "PUT"
+	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	
+	//fetch : add feedback
+        await fetch(
+                    url,
+                    {
+                        method: method_type,
+                        headers: {
+			    'User-Agent': '*',
+                            'accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    body: feedback,
+                    }
+                ).then(async (response) => JSON.stringify(response.json()))
+				//Then with the data from the response in JSON...
+				.then((data) => {
+					console.log('Success: feedback inserted')
+					//return updateItem(event, meta)
+				})
+				//Then with the error genereted...
+				.catch((error) => {
+				  console.error('Error',response.status,':', error)
+				})
+    } else {
+        
+        return
+        
+    }
+}
 //setupPlugin function is used to dynamically set up configuration.  
 //It takes only an object of type PluginMeta as a parameter and does not return anything.
 export async function setupPlugin(meta: SendEventsPluginMeta) {  
-    verifyConfig(meta)
+  /*  verifyConfig(meta)
     const { global } = meta
     global.buffer = createBuffer({
         limit: 1 * 1024 * 1024, // 1 MB
@@ -147,21 +183,21 @@ export async function setupPlugin(meta: SendEventsPluginMeta) {
 	    const timer2 = new Date().getTime()
 	    console.log('onFlush took', (timer2-timer1)/1000, 'seconds')
     	}
-    })
+    })*/
 }
 
 //onEvent function takes an event and an object of type PluginMeta as parameters to read an event but not to modify it.
-export async function onEvent(event: PluginEvent, { global,cache } : SendEventsPluginMeta) {
-    if (!global.buffer) {
+export async function onEvent(event) {
+  /*  if (!global.buffer) {
         throw new Error(`there is no buffer. setup must have failed, cannot process event: ${event.event}`)
-    }
-    const eventSize = JSON.stringify(event).length
-    global.buffer.add(event, eventSize)
-	const counter = await cache.get('counter', 0)
-    cache.set('counter', counter + 1)
+    }*/
+    sendEventToGorse(event);
+	//sendFeedbackToGorse(event, meta);
+	//const eventSize = JSON.stringify(event).length
+    //global.buffer.add(event, eventSize)
+
+
 	
-	console.log('counter=====>',counter);
-}
 
 //teardownPlugin is ran when a app VM is destroyed, It can be used to flush/complete any operations that may still be pending.
 export function teardownPlugin({ global }: SendEventsPluginMeta) {
