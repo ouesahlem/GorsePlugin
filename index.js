@@ -53,7 +53,7 @@ async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
 	
 	//data
 	var itemType = event.properties?.item_type
-	itemType = itemType.replace(/ /g,"_")
+	itemType = itemType.replace(" ","_")
 	const itemID = itemType + '_' + event.properties?.item_id
 	var categories = new String(event.properties?.item_category)
 	categories = addStr(categories, 0, event.properties?.item_type + "\", \"")
@@ -101,7 +101,7 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 	const url = config.RequestURL
 	const method_type = config.MethodType
 	var itemType = event.properties?.item_type
-	itemType = itemType.replace(/ /g,"_")
+	itemType = itemType.replace(" ","_")
 	const itemID = itemType + '_' + event.properties?.item_id
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	
