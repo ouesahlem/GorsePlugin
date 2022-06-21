@@ -100,7 +100,9 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 	//data
 	const url = config.RequestURL
 	const method_type = config.MethodType
-	const itemID = event.properties?.item_type + '_' + event.properties?.item_id
+	var itemType = event.properties?.item_type
+	itemType = itemType.replace(/ /g,"_")
+	const itemID = itemType + '_' + event.properties?.item_id
 	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	
 	//fetch : add feedback
