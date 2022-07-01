@@ -47,43 +47,6 @@ function verifyConfig({ config }: SendEventsPluginMeta) {
     }
 }
 
-async function updateItem(event: PluginEvent, meta: SendEventsPluginMeta) {
-	
-	const { config, metrics } = meta
-	
-	//data
-	var itemType = event.properties?.item_type
-	itemType = itemType.replace(" ","_")
-	const itemID = itemType + '_' + event.properties?.item_id
-	var categories = new String(event.properties?.item_category)
-	categories = addStr(categories, 0, event.properties?.item_type + "\", \"")
-	var labels = new String(event.properties?.item_sub_category)
-	labels = addStr(categories, 0, event.properties?.item_type + "\", \"")
-	const items = new String('{ \"Categories\":   [\"' + categories + '\"]  , \"Comment\": \"' + event.properties?.item_name + '\", \"IsHidden\": false, \"Labels\": [ \"' + labels + '\" ], \"Timestamp\": \"' + event.timestamp + '\"}')
-	
-	//fetch : update item
-	await fetch(
-                'http://51.89.15.39:8087/api/item/' + itemID,
-                {
-                        method: 'PATCH',
-                        headers: {
-			    'User-Agent': '*',
-                            'accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                    	body: items,      
-                }
-        ).then(async (response) => JSON.stringify(response.json()))
-			//Then with the data from the response in JSON...
-			.then((data) => {
-			console.log('Success: item inserted');
-			})
-			//Then with the error genereted...
-			.catch((error) => {
-			  console.error('Error',response.status,':', error);
-			})
-}	
-
 async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMeta) {
 
     const { config, metrics } = meta
@@ -100,10 +63,7 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 	//data
 	const url = config.RequestURL
 	const method_type = config.MethodType
-	var itemType = event.properties?.item_type
-	itemType = itemType.replace(" ","_")
-	const itemID = itemType + '_' + event.properties?.item_id
-	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + itemID + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
+	const feedback = new String('[{\"Comment\": \"\",  \"FeedbackType\": \"' + event.event + '\",  \"ItemId\": \"' + event.properties?.item_id + '\",  \"Timestamp\": \"' + event.timestamp + '\",  \"UserId\": \"' + event.distinct_id + '\"}]')
 	
 	//fetch : add feedback
         await fetch(
@@ -121,7 +81,6 @@ async function sendFeedbackToGorse(event: PluginEvent, meta: SendEventsPluginMet
 				//Then with the data from the response in JSON...
 				.then((data) => {
 					console.log('Success: feedback inserted')
-					return updateItem(event, meta)
 				})
 				//Then with the error genereted...
 				.catch((error) => {
